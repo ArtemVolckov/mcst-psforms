@@ -10,6 +10,7 @@ PSForm parse_psf(const char *str) {
   PSForm res = {NULL};
   Term *term, *last;
   char ch;
+
   for (int pos = 0; pos < len; ++pos) {
     ch = str[pos];
     if (ch == ' ' || ch == '+')
@@ -43,6 +44,7 @@ Term *parse_term(const char *str, int *pos, int len) {
   Factor *factor;
   int val = 0, is_read = 0;
   char ch;
+
   /* попытка считать константный множитель */
   while (*pos < len) {
     ch = str[*pos];
@@ -60,6 +62,7 @@ Term *parse_term(const char *str, int *pos, int len) {
   res->factors = factor;
   factor->next = NULL;
   factor->val = val;
+
   while (*pos < len) {
     ch = str[*pos];
     if (ch == '-' || ch == '+')
