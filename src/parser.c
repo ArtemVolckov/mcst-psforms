@@ -5,34 +5,48 @@
 
 Term *parse_term(const char*, int*, int);
 
-PSForm parse_psf(const char *str) {
-  int len = strlen(str), is_sum = 1;
-  PSForm res = {NULL};
-  Term *term, *last;
-  char ch;
+/* Возращаемое значение = NULL при ошибке парсинга */
+PSForm *parse_psf(const char *str) {
+  PSForm *res = (PSForm*)calloc(1, sizeof(PSForm));
+  int len = strlen(str), is_sum = -1;
+  Term *new_term, *tail;
 
   for (int pos = 0; pos < len; ++pos) {
-    ch = str[pos];
-    if (ch == ' ' || ch == '+')
+    char ch = str[pos];
+    if (isspace(ch))
       continue;
-    if (ch == '-') 
-      is_sum = !is_sum;
-    else {
-      term = parse_term(str, &pos, len);
-      /* замена знака константы */
-      if (!is_sum) {
-        if (term && term->factors)
-          term->factors->val *= -1;
+    else if (ch == '+')
+      if (is_sum == -1)
         is_sum = 1;
+    else if (ch == '-') 
+      is_sum = !is_sum;
+    else if (isalnum(ch)) {
+      if (is_sum == -1) {
+        free_psf(res);
+        return NULL;
       }
-      if (!res.terms) {
-        res.terms = term;
-        last = term;
+      new_term = parse_term(str, &pos, len);
+      if (!new_term) {
+        free_psf(res);
+        return NULL;
+      }
+      /* замена знака константы */
+      if (!is_sum)
+        // FIX: добавить до этого проверку чтоб не NULL
+        new_term->factors->val *= -1;
+      if (!res->terms) {
+        res->terms = new_term;
+        tail = new_term;
       }
       else {
-        last->next = term;
-        last = term; 
+        tail->next = new_term;
+        tail = new_term; 
       }
+      is_sum = -1;
+    }
+    else {
+      free_psf(res);
+      return NULL;
     }
   }
   return res;

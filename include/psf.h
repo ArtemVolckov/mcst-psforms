@@ -1,6 +1,8 @@
 #ifndef PSF_H
 #define PSF_H
 
+#include <assert.h>
+
 #define MAX_ASCII 256
 
 typedef struct Factor Factor;
