@@ -17,6 +17,7 @@ int main() {
     if (scanf("%c", &op) == EOF) /* чтение операции */
       break;
     while (getchar() != '\n') {}
+    // FIX: exit(EXIT_FAILURE);
     //fprintf(stderr, "Invalid PS form\n");
     fgets(str1, sizeof(str1), stdin); /* чтение 1-ой PS-формы */
     fgets(str2, sizeof(str2), stdin); /* чтение 2-ой PS-формы */
