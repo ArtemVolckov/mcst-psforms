@@ -4,6 +4,9 @@
 #include "psf.h"
 
 Term *parse_term(const char*, int*, int);
+void free_term(Term*);
+
+//TODO: использовать enum для is_sum и is_read; добавить вспомогательные функции
 
 /* Возращаемое значение = NULL при ошибке парсинга */
 PSForm *parse_psf(const char *str) {
@@ -50,20 +53,6 @@ PSForm *parse_psf(const char *str) {
   }
   return res;
 }
-
-
-void free_term(Term *t) {
-  if (!t)
-    return;
-  Factor *f1 = t->factors, *f2;
-  while (f1) {
-    f2 = f1;
-    f1 = f1->next;
-    free(f2)
-  }
-  free(t);
-}
-
 
 Term *parse_term(const char *str, int *pos, int len) {
   int is_read = 0;
@@ -112,7 +101,7 @@ Term *parse_term(const char *str, int *pos, int len) {
       break;
     }
     else if (isalpha(ch)) {
-      if (is_read == -1 || is_read = 0) {
+      if (is_read == -1 || is_read == 0) {
         free_term(res);
         return NULL;
       }
@@ -127,4 +116,16 @@ Term *parse_term(const char *str, int *pos, int len) {
     }
   }
   return res;
+}
+
+void free_term(Term *t) {
+  if (!t) 
+    return;
+  Factor *f1 = t->factors, *f2;
+  while (f1) {
+    f2 = f1;
+    f1 = f1->next;
+    free(f2);
+  }
+  free(t);
 }
