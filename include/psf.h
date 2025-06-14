@@ -1,8 +1,6 @@
 #ifndef PSF_H
 #define PSF_H
 
-#include <assert.h>
-
 #define MAX_ASCII 256
 
 typedef struct Factor Factor;
@@ -23,7 +21,7 @@ typedef struct {
 } PSForm;
 
 /* парсинг строки в PS-форму */
-PSForm parse_psf(const char*);
+PSForm *parse_psf(const char*);
 
 void print_psf(PSForm*);
 void free_psf(PSForm*);

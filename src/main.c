@@ -3,6 +3,8 @@
 #include <time.h>
 #include "psf.h"
 
+void read_input();
+
 int main() {
   char str1[10000], str2[10000];
   PSForm a, b, res;

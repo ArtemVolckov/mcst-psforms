@@ -51,6 +51,7 @@ PSForm *parse_psf(const char *str) {
   return res;
 }
 
+
 void free_term(Term *t) {
   if (!t)
     return;
@@ -62,6 +63,7 @@ void free_term(Term *t) {
   }
   free(t);
 }
+
 
 Term *parse_term(const char *str, int *pos, int len) {
   int is_read = 0;
